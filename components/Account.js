@@ -76,7 +76,7 @@ const Account = ({ session }) => {
   }, [session]);
 
   return (
-    <div className="form-widget">
+    <div className="container mt-3">
       <FormInput name={"Email"} type="text" value={session.user.email} />
       <FormInput name={"Name"} settervalue={setName} type="text" value={name} />
       <FormInput

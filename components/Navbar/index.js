@@ -2,20 +2,25 @@
 
 import React from "react";
 import { Menu } from "antd";
+import Link from "next/link";
 
 const NavBar = () => {
-  return (
-    <Menu mode="horizontal" defaultSelectedKeys={["brand"]} theme="dark">
-      <Menu.Item key="brand">PROGRESS TRACKER</Menu.Item>
-      <Menu.Item key="courses">Courses</Menu.Item>
+  const menuItems = [
+    {
+      key: "brand",
+      label: <Link href={"/"}>PROGRESS TRACKER</Link>,
+    },
+    { key: "courses", label: <Link href={"/courses"}>Courses</Link> },
+    { key: "profile", label: <Link href={"/account"}>My account</Link> },
+  ];
 
-      <Menu.SubMenu key="Profile" title="My Profile" className="ms-auto">
-        <Menu.Item key="ac">Account</Menu.Item>
-        <Menu.Item key="lg" className="text-danger" onClick={() => {}}>
-          Logout
-        </Menu.Item>
-      </Menu.SubMenu>
-    </Menu>
+  return (
+    <Menu
+      mode="horizontal"
+      defaultSelectedKeys={["brand"]}
+      theme="dark"
+      items={menuItems}
+    />
   );
 };
 
