@@ -2,6 +2,7 @@
 
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import React, { useEffect, useState } from "react";
+import FormInput from "./FormInput";
 
 const Account = ({ session }) => {
   const supabase = useSupabaseClient();
@@ -10,6 +11,8 @@ const Account = ({ session }) => {
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState(null);
   const [website, setWebsite] = useState(null);
+  const [name, setName] = useState(null);
+  const [profilePicUrl, setProfilePicUrl] = useState(null);
 
   const getProfile = async () => {
     try {
@@ -17,7 +20,7 @@ const Account = ({ session }) => {
 
       let { data, error, status } = await supabase
         .from("profiles")
-        .select("username,website")
+        .select("username,website,name,profile_pic_url")
         .eq("id", user.id)
         .single();
 
@@ -28,6 +31,8 @@ const Account = ({ session }) => {
       if (data) {
         setUserName(data.username);
         setWebsite(data.website);
+        setName(data.name);
+        setProfilePicUrl(data.profile_pic_url);
       }
     } catch (error) {
       alert("Error loading user data");
@@ -44,6 +49,8 @@ const Account = ({ session }) => {
         id: user.id,
         username: userName,
         website,
+        name,
+        profile_pic_url: profilePicUrl,
         updated_at: new Date().toISOString(),
       };
 
@@ -67,45 +74,40 @@ const Account = ({ session }) => {
 
   return (
     <div className="form-widget">
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          value={userName || ""}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="website"
-          value={website || ""}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
+      <FormInput name={"Email"} type="text" value={session.user.email} />
+      <FormInput name={"Name"} settervalue={setName} type="text" value={name} />
+      <FormInput
+        name={"Username"}
+        settervalue={setUserName}
+        type="text"
+        value={userName}
+      />
+      <FormInput
+        name={"Profile Picture URL"}
+        settervalue={setProfilePicUrl}
+        type="text"
+        value={profilePicUrl}
+      />
+      <FormInput
+        name={"Website"}
+        settervalue={setWebsite}
+        type="website"
+        value={website}
+      />
 
       <div>
         <button
-          className="button primary block"
-          onClick={() => updateProfile({ userName, website })}
+          className="btn btn-primary"
+          onClick={() => updateProfile()}
           disabled={loading}
         >
           {loading ? "Loading ..." : "Update"}
         </button>
-      </div>
-
-      <div>
         <button
-          className="button block"
+          className="btn btn-danger ms-3"
           onClick={() => supabase.auth.signOut()}
         >
-          Sign Out
+          Logout
         </button>
       </div>
     </div>
