@@ -1,6 +1,7 @@
 /** @format */
 
 import "bootstrap/dist/css/bootstrap.css";
+import "antd/dist/antd.css";
 import "../styles/globals.css";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";

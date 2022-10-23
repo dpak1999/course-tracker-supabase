@@ -54,6 +54,9 @@ const Account = ({ session }) => {
         updated_at: new Date().toISOString(),
       };
 
+      await supabase.auth
+        .updateUser({ password: "87654321" })
+        .then((res) => console.log(res));
       let { error } = await supabase.from("profiles").upsert(updates);
 
       if (error) throw error;
