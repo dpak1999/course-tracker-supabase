@@ -1,11 +1,16 @@
 /** @format */
 
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import {
+  useSession,
+  useSupabaseClient,
+  useUser,
+} from "@supabase/auth-helpers-react";
 import React, { useEffect, useState } from "react";
 import FormInput from "./FormInput";
 
-const Account = ({ session }) => {
+const Account = () => {
   const supabase = useSupabaseClient();
+  const session = useSession();
   const user = useUser();
 
   const [loading, setLoading] = useState(true);
@@ -54,9 +59,6 @@ const Account = ({ session }) => {
         updated_at: new Date().toISOString(),
       };
 
-      await supabase.auth
-        .updateUser({ password: "87654321" })
-        .then((res) => console.log(res));
       let { error } = await supabase.from("profiles").upsert(updates);
 
       if (error) throw error;
@@ -71,13 +73,13 @@ const Account = ({ session }) => {
   };
 
   useEffect(() => {
-    getProfile();
+    session && getProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   return (
     <div className="container mt-3">
-      <FormInput name={"Email"} type="text" value={session.user.email} />
+      <FormInput name={"Email"} type="text" value={session?.user?.email} />
       <FormInput name={"Name"} settervalue={setName} type="text" value={name} />
       <FormInput
         name={"Username"}
