@@ -2,6 +2,7 @@
 
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
+import Account from "../components/Account";
 
 const Home = () => {
   const session = useSession();
@@ -16,7 +17,7 @@ const Home = () => {
           appearance={{ theme: ThemeSupa }}
         />
       ) : (
-        <p>Authed</p>
+        <Account session={session} />
       )}
     </div>
   );
