@@ -8,6 +8,7 @@ import {
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import FormInput from "./FormInput";
+import { toast } from "react-toastify";
 
 const Account = () => {
   const supabase = useSupabaseClient();
@@ -34,6 +35,7 @@ const Account = () => {
         .single();
 
       if (error && status !== 406) {
+        toast.error(error.message);
         throw error;
       }
 
@@ -44,8 +46,7 @@ const Account = () => {
         setProfilePicUrl(data.profile_pic_url);
       }
     } catch (error) {
-      alert("Error loading user data");
-      console.log({ error });
+      toast.error(error);
     } finally {
       setLoading(false);
     }
@@ -65,12 +66,14 @@ const Account = () => {
 
       let { error } = await supabase.from("profiles").upsert(updates);
 
-      if (error) throw error;
+      if (error) {
+        toast.error(error);
+        throw error;
+      }
 
-      alert("Profile updated");
+      toast.success("Profile updated successfully");
     } catch (error) {
-      alert("Error updating user data");
-      console.log({ error });
+      toast.error(error);
     } finally {
       setLoading(false);
     }
@@ -80,20 +83,21 @@ const Account = () => {
     try {
       setLoading(true);
       if (password !== confirmPassword) {
-        alert("Please confirm password");
+        toast.error("Passwords do not match");
         return;
       }
-      const { data, error } = await supabase.auth.updateUser({
+      const { error } = await supabase.auth.updateUser({
         password: password,
       });
-      console.log({ data, error });
 
-      if (error) throw error;
+      if (error) {
+        toast.error(error);
+        throw error;
+      }
 
-      alert("Password updated");
+      toast.success("Password updated");
     } catch (error) {
-      alert("Error updating password");
-      console.log({ error });
+      toast.error(error);
     } finally {
       setLoading(false);
     }
