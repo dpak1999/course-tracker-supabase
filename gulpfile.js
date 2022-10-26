@@ -22,7 +22,7 @@ gulp.task("less", function () {
     )
     .pipe(postcss(plugins))
     .pipe(csso({ debug: true }))
-    .pipe(gulp.dest("./public"));
+    .pipe(gulp.dest("./styles"));
 });
 
 exports.sync = gulp.series("less");

@@ -8,6 +8,7 @@ import AddCategory from "../components/Modal/AddCategory";
 import NavBar from "../components/Navbar";
 import { toast } from "react-toastify";
 import { supabase } from "../utils/supabase";
+import CategoryTable from "../components/DataGrid/CategoryTable";
 
 const DashboardPage = ({ session }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,6 @@ const DashboardPage = ({ session }) => {
         .insert([{ user_id: user.id, name }]);
 
       if (error) {
-        console.log({ error });
         toast.error(error);
         throw error;
       }
@@ -29,6 +29,9 @@ const DashboardPage = ({ session }) => {
       toast.success("Category added successfully");
     } catch (error) {
       toast.error(error);
+    } finally {
+      setName(null);
+      setIsOpen(false);
     }
   };
 
@@ -67,6 +70,7 @@ const DashboardPage = ({ session }) => {
         <Typography.Title style={{ color: "#fff", marginTop: 20 }}>
           Categories
         </Typography.Title>
+        <CategoryTable />
       </div>
     </div>
   );
