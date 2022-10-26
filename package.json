@@ -9,14 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@supabase/auth-helpers-nextjs": "^0.4.1",
     "@supabase/auth-helpers-react": "^0.3.0",
     "@supabase/auth-ui-react": "^0.2.2",
     "@supabase/supabase-js": "^2.0.4",
+    "antd": "^4.23.6",
+    "autoprefixer": "^10.4.12",
     "bootstrap": "^5.2.2",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^4.0.1",
+    "gulp-debug": "^4.0.0",
+    "gulp-less": "^5.0.0",
+    "gulp-postcss": "^9.0.1",
+    "less-plugin-npm-import": "^2.1.0",
     "next": "12.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-css-theme-switcher": "^0.3.0",
+    "react-dom": "18.2.0",
+    "react-toastify": "^9.0.8"
   },
   "devDependencies": {
     "eslint": "8.26.0",
