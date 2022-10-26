@@ -10,9 +10,10 @@ import { toast } from "react-toastify";
 import { supabase } from "../utils/supabase";
 import CategoryTable from "../components/DataGrid/CategoryTable";
 
-const DashboardPage = ({ session }) => {
+const DashboardPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState(null);
+  const [allCategories, setAllCategories] = useState([]);
   const user = useUser();
 
   const handleAddCategory = async () => {
@@ -32,6 +33,22 @@ const DashboardPage = ({ session }) => {
     } finally {
       setName(null);
       setIsOpen(false);
+      fetchAllCategories();
+    }
+  };
+
+  const fetchAllCategories = async () => {
+    try {
+      const { data, error } = await supabase.from("categories").select("*");
+
+      if (error) {
+        toast.error(error);
+        throw error;
+      }
+
+      if (data) setAllCategories(data);
+    } catch (error) {
+      toast.error(error);
     }
   };
 
@@ -70,7 +87,10 @@ const DashboardPage = ({ session }) => {
         <Typography.Title style={{ color: "#fff", marginTop: 20 }}>
           Categories
         </Typography.Title>
-        <CategoryTable />
+        <CategoryTable
+          fetchAllCategories={fetchAllCategories}
+          data={allCategories}
+        />
       </div>
     </div>
   );
