@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "antd/dist/antd.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
+import "../styles/antd.dark-theme.css";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
